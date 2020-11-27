@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#00000000">
+
+    <LinearLayout
+        android:id="@+id/ll_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="#ff0000"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="22dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="温馨提示"
+            android:textColor="#333333"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="28dp"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:paddingStart="23dp"
+            android:paddingEnd="23dp"
+            android:text="这是一个常规的 AlertDialog 呀"
+            android:textColor="#252525"
+            android:textSize="16dp" />
+
+
+        <LinearLayout
+            android:id="@+id/ll_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btn_cancel"
+                android:layout_width="126dp"
+                android:layout_height="45dp"
+                android:background="#f3f6f8"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="取消"
+                android:textColor="#252525"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btn_ok"
+                android:layout_width="126dp"
+                android:layout_height="45dp"
+                android:layout_gravity="end"
+                android:layout_marginLeft="16dp"
+                android:background="#ffdc36"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="确认"
+                android:textColor="#252525"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>

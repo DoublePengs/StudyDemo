@@ -1,0 +1,60 @@
++--- com.liepin.swift:android-swift-framework:3.0.3
+|    +--- com.android.support:appcompat-v7:26.1.0 -> 28.0.0 (*)
+|    +--- com.android.support:recyclerview-v7:26.1.0 -> 28.0.0 (*)
+|    +--- com.j256.ormlite:ormlite-core:4.48
+|    +--- com.j256.ormlite:ormlite-android:4.48
+|    |    \--- com.j256.ormlite:ormlite-core:4.48
+|    +--- com.squareup.okhttp3:okhttp:3.2.0 -> 3.8.1
+|    |    \--- com.squareup.okio:okio:1.13.0
+|    +--- com.squareup.okio:okio:1.5.0 -> 1.13.0
+|    +--- com.liepin.swift:android-swift-logger:1.0.1
+|    |    +--- com.android.support:appcompat-v7:22.2.1 -> 28.0.0 (*)
+|    |    \--- com.android.support:multidex:1.0.1 -> 1.0.2
+|    +--- com.growingio.android:vds-android-agent:RN-autotrack-2.7.9
+|    +--- com.liepin.swift:android-swift-rn:1.1.6
+|    |    +--- javax.inject:javax.inject:1
+|    |    +--- com.android.support:appcompat-v7:23.0.1 -> 28.0.0 (*)
+|    |    +--- com.facebook.fbui.textlayoutbuilder:textlayoutbuilder:1.0.0
+|    |    |    \--- com.facebook.fbui.textlayoutbuilder:staticlayout-proxy:1.0
+|    |    +--- com.facebook.fresco:fresco:1.3.0
+|    |    |    +--- com.facebook.fresco:drawee:1.3.0
+|    |    |    |    \--- com.facebook.fresco:fbcore:1.3.0
+|    |    |    +--- com.facebook.fresco:fbcore:1.3.0
+|    |    |    \--- com.facebook.fresco:imagepipeline:1.3.0
+|    |    |         +--- com.parse.bolts:bolts-tasks:1.4.0
+|    |    |         +--- com.facebook.fresco:fbcore:1.3.0
+|    |    |         \--- com.facebook.fresco:imagepipeline-base:1.3.0
+|    |    |              +--- com.parse.bolts:bolts-tasks:1.4.0
+|    |    |              \--- com.facebook.fresco:fbcore:1.3.0
+|    |    +--- com.facebook.fresco:imagepipeline-okhttp3:1.3.0
+|    |    |    +--- com.squareup.okhttp3:okhttp:3.6.0 -> 3.8.1 (*)
+|    |    |    +--- com.facebook.fresco:fbcore:1.3.0
+|    |    |    \--- com.facebook.fresco:imagepipeline:1.3.0 (*)
+|    |    +--- com.facebook.soloader:soloader:0.1.0
+|    |    +--- com.google.code.findbugs:jsr305:3.0.0
+|    |    +--- com.squareup.okhttp3:okhttp:3.6.0 -> 3.8.1 (*)
+|    |    +--- com.squareup.okhttp3:okhttp-urlconnection:3.6.0
+|    |    |    \--- com.squareup.okhttp3:okhttp:3.6.0 -> 3.8.1 (*)
+|    |    +--- com.squareup.okio:okio:1.13.0
+|    |    +--- org.webkit:android-jsc:r174650
+|    |    \--- com.facebook.fresco:animated-gif:1.3.0
+|    |         +--- com.parse.bolts:bolts-tasks:1.4.0
+|    |         +--- com.facebook.fresco:fbcore:1.3.0
+|    |         \--- com.facebook.fresco:animated-base:1.3.0
+|    |              +--- com.parse.bolts:bolts-tasks:1.4.0
+|    |              +--- com.facebook.fresco:fbcore:1.3.0
+|    |              +--- com.facebook.fresco:imagepipeline-base:1.3.0 (*)
+|    |              \--- com.facebook.fresco:imagepipeline:1.3.0 (*)
+|    +--- com.appadhoc:abtest:5.1.6
+|    +--- com.airbnb.android:lottie:2.3.1 -> 2.7.0
+|    |    \--- com.android.support:appcompat-v7:27.1.1 -> 28.0.0 (*)
+|    \--- com.liepin.swift:android-swift-aegislog:0.0.2
+|         +--- com.android.support:support-v4:28.+ -> 28.0.0 (*)
+|         +--- com.android.support:appcompat-v7:28.+ -> 28.0.0 (*)
+|         +--- com.android.support:support-annotations:28.+ -> 28.0.0
+|         +--- com.squareup.okhttp3:okhttp:3.6.0 -> 3.8.1 (*)
+|         \--- com.liepin.swift:android-swift-pagecollection:0.0.1
+|              +--- com.android.support:support-v4:28.+ -> 28.0.0 (*)
+|              +--- com.android.support:appcompat-v7:28.+ -> 28.0.0 (*)
+|              \--- me.weishu:free_reflection:2.1.0
++--- com.liepin.swift:android-swift-rn:1.1.6 (*)
