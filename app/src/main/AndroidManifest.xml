@@ -48,6 +48,9 @@
         <activity android:name=".activity.fragment.MyFragmentActivity" />
         <activity android:name=".activity.RemoveActivity" />
         <activity android:name=".activity.DialogActivity" />
+        <activity
+            android:name=".activity.SingleTaskActivity"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

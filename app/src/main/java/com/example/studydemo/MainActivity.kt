@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btn_fragment_crash.setOnClickListener(this)
         btn_remove.setOnClickListener(this)
         btn_dialog.setOnClickListener(this)
+        btn_single_task.setOnClickListener(this)
 
     }
 
@@ -115,6 +116,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             R.id.btn_dialog -> {
                 startActivity(Intent(this, DialogActivity::class.java))
+            }
+
+            R.id.btn_single_task -> {
+                startActivity(Intent(this, SingleTaskActivity::class.java))
             }
 
         }
