@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.example.studydemo.activity.*
 import com.example.studydemo.activity.fragment.MyFragmentActivity
 import com.example.studydemo.activity.launchmode.LaunchActivityA
+import com.example.studydemo.utils.HardwareUtil
 import com.example.studydemo.utils.ImageUtils
 import com.example.studydemo.utils.PermissionUtil
 import com.example.studydemo.utils.ToastKeeper
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btn_remove.setOnClickListener(this)
         btn_dialog.setOnClickListener(this)
         btn_single_task.setOnClickListener(this)
+        btn_translation_test.setOnClickListener(this)
 
     }
 
@@ -119,7 +121,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             R.id.btn_single_task -> {
-                startActivity(Intent(this, SingleTaskActivity::class.java))
+//                startActivity(Intent(this, SingleTaskActivity::class.java))
+                HardwareUtil.getHardwareId(this)
+            }
+
+            R.id.btn_translation_test -> {
+                startActivity(Intent(this, TranslationTestActivity::class.java))
             }
 
         }

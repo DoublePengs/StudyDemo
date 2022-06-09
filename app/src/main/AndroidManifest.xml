@@ -51,6 +51,7 @@
         <activity
             android:name=".activity.SingleTaskActivity"
             android:launchMode="singleTask" />
+        <activity android:name=".activity.TranslationTestActivity" />
     </application>
 
 </manifest>

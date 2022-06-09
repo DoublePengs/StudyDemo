@@ -4,7 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-apply plugin: 'danny.asm.lifecycle' // 在自定义 Gradle 插件中 properties 文件名
+//apply plugin: 'danny.asm.lifecycle' // 在自定义 Gradle 插件中 properties 文件名
+//apply plugin: 'com.asm.gradle'
 
 apply plugin: 'com.didi.dokit'
 
@@ -12,12 +13,20 @@ buildscript {
     repositories {
         google()
         jcenter()
-        // 自定义插件的 maven 地址
-        maven { url '../asm_lifecycle_repo' }
+//        // 自定义插件的 maven 地址
+//        maven { url '../asm_lifecycle_repo' }
+
+        maven {
+            // 本地仓库地址
+            url uri('/Users/liepin/AndroidProject/StudyDemo/asmTest/my-plugin')
+        }
     }
     dependencies {
-        // 加载自定义插件 group + moudle + version
-        classpath 'danny.lifecycle.plugin:asm_lifecycle_plugin:1.0.0'
+//        // 加载自定义插件 group + moudle + version
+//        classpath 'danny.lifecycle.plugin:asm_lifecycle_plugin:1.0.0'
+
+        // 自己写的插件  group + artifact + version
+        classpath 'com.asm.plugin:asmplugin:1.0'
     }
 }
 
@@ -48,6 +57,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+//    implementation project(path: ':asmTest')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

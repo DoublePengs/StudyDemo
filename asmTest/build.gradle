@@ -1,0 +1,44 @@
+plugins {
+    id 'java-library'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+}
+
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+dependencies {
+    // gradle sdk
+    implementation gradleApi()
+    // groovy sdk
+    implementation localGroovy()
+
+    implementation 'com.android.tools.build:gradle:3.5.0'
+    // ASM相关依赖
+    implementation 'org.ow2.asm:asm:7.1'
+    implementation 'org.ow2.asm:asm-commons:7.1'
+}
+//uploadArchives是将已经自定义好了插件打包到本地Maven库里面去了，
+// 你也可以选择打包到远程服务器中。其中，
+// group和version是我们之后配置插件地址时要用到的。
+uploadArchives {
+    repositories.mavenDeployer {
+        //本地的Maven地址:当前工程下
+        repository(url: uri('./my-plugin'))
+        pom.groupId = "com.asm.plugin"
+        pom.artifactId = "asmplugin"
+        pom.version = "1.0"
+
+        //提交到远程服务器：
+        // repository(url: "http://www.xxx.com/repos") {
+        //    authentication(userName: "admin", password: "admin")
+        // }
+    }
+}
