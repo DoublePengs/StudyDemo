@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.studydemo">
 
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
+
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
@@ -21,14 +28,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.4" />
+        <meta-data
+            android:name="android.min_aspect"
+            android:value="1.0" />
+
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="screenSize|orientation|smallestScreenSize|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.CoordinatorActivity" />
+        <activity
+            android:name=".activity.CoordinatorActivity"
+            android:configChanges="screenSize|orientation|smallestScreenSize" />
         <activity android:name=".activity.LottieActivity" />
         <activity android:name=".annotation.AnnotationActivity" />
         <activity android:name=".activity.CameraPreviewActivity" />
@@ -47,11 +65,17 @@
             android:launchMode="singleTask" />
         <activity android:name=".activity.fragment.MyFragmentActivity" />
         <activity android:name=".activity.RemoveActivity" />
-        <activity android:name=".activity.DialogActivity" />
+        <activity
+            android:name=".activity.DialogActivity"
+            android:configChanges="screenSize|orientation|smallestScreenSize|keyboardHidden" />
         <activity
             android:name=".activity.SingleTaskActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".activity.TranslationTestActivity" />
+        <activity
+            android:name=".activity.TranslationTestActivity"
+            android:screenOrientation="fullSensor"
+            android:configChanges="screenSize|orientation|smallestScreenSize|keyboardHidden" />
+        <activity android:name=".activity.VideoCompressActivity" />
     </application>
 
 </manifest>

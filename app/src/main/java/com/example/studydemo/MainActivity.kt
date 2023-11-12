@@ -3,19 +3,50 @@ package com.example.studydemo
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.example.studydemo.activity.*
+import androidx.appcompat.app.AppCompatActivity
+import com.example.studydemo.activity.CameraPreviewLowerActivity
+import com.example.studydemo.activity.CameraViewActivity
+import com.example.studydemo.activity.CoordinatorActivity
+import com.example.studydemo.activity.CountDownTimerActivity
+import com.example.studydemo.activity.DialogActivity
+import com.example.studydemo.activity.LeakTestActivity
+import com.example.studydemo.activity.LottieActivity
+import com.example.studydemo.activity.RemoveActivity
+import com.example.studydemo.activity.ScreenShotActivity
+import com.example.studydemo.activity.ScrollViewActivity
+import com.example.studydemo.activity.TranslationTestActivity
+import com.example.studydemo.activity.VideoCompressActivity
 import com.example.studydemo.activity.fragment.MyFragmentActivity
 import com.example.studydemo.activity.launchmode.LaunchActivityA
+import com.example.studydemo.print.PurePrintManager
 import com.example.studydemo.utils.HardwareUtil
 import com.example.studydemo.utils.ImageUtils
 import com.example.studydemo.utils.PermissionUtil
 import com.example.studydemo.utils.ToastKeeper
-import kotlinx.android.synthetic.main.activity_main.*
+import com.googlecode.mp4parser.util.Matrix
+import kotlinx.android.synthetic.main.activity_main.btn_agora
+import kotlinx.android.synthetic.main.activity_main.btn_annotation
+import kotlinx.android.synthetic.main.activity_main.btn_camera
+import kotlinx.android.synthetic.main.activity_main.btn_compress_video
+import kotlinx.android.synthetic.main.activity_main.btn_coordinator
+import kotlinx.android.synthetic.main.activity_main.btn_dialog
+import kotlinx.android.synthetic.main.activity_main.btn_fragment_crash
+import kotlinx.android.synthetic.main.activity_main.btn_launch_mode
+import kotlinx.android.synthetic.main.activity_main.btn_leak
+import kotlinx.android.synthetic.main.activity_main.btn_lottie
+import kotlinx.android.synthetic.main.activity_main.btn_remove
+import kotlinx.android.synthetic.main.activity_main.btn_save_img
+import kotlinx.android.synthetic.main.activity_main.btn_screen_shot
+import kotlinx.android.synthetic.main.activity_main.btn_scroll_view
+import kotlinx.android.synthetic.main.activity_main.btn_send_cmd
+import kotlinx.android.synthetic.main.activity_main.btn_single_task
+import kotlinx.android.synthetic.main.activity_main.btn_timer
+import kotlinx.android.synthetic.main.activity_main.btn_toast
+import kotlinx.android.synthetic.main.activity_main.btn_translation_test
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -24,6 +55,32 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // 阻塞队列加同步锁实现逐字文本打印输出的管理类，可以用于实现AI回复消息拟真逐字打印的效果
+        PurePrintManager.getInstance().init()
+        PurePrintManager.getInstance()
+            .setFragmentListener(object : PurePrintManager.OnPrintListener {
+                override fun printStart() {
+                    Log.w("PurePrintManager", "------>> printStart")
+                }
+
+                override fun refreshText(taskId: Long, currentText: String?) {
+
+                }
+
+                override fun printEnd(taskId: Long) {
+                    Log.e("PurePrintManager", "------>> printEnd  taskId=$taskId")
+                }
+            })
+
+        for (i in 0..10) {
+            PurePrintManager.getInstance().startPrint(i.toLong())
+            PurePrintManager.getInstance().putText("$i 项目名称：测试项目经历 \n- 描述急急")
+            PurePrintManager.getInstance().putText("$i 急急急急急地面")
+            PurePrintManager.getInstance().putText("$i ")
+            PurePrintManager.getInstance().putEndFlag()
+        }
+
+        btn_compress_video.setOnClickListener(this)
         btn_lottie.setOnClickListener(this)
         btn_coordinator.setOnClickListener(this)
         btn_annotation.setOnClickListener(this)
@@ -43,12 +100,22 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btn_single_task.setOnClickListener(this)
         btn_translation_test.setOnClickListener(this)
 
+        var matrix = Matrix.ROTATE_0
+        Toast.makeText(this, "matrix=" + matrix, Toast.LENGTH_LONG).show()
+
     }
 
     var index = 0
 
     override fun onClick(v: View?) {
         when (v?.id) {
+            R.id.btn_compress_video -> startActivity(
+                Intent(
+                    this,
+                    VideoCompressActivity::class.java
+                )
+            )
+
             R.id.btn_lottie -> startActivity(Intent(this, LottieActivity::class.java))
             R.id.btn_coordinator -> startActivity(Intent(this, CoordinatorActivity::class.java))
             R.id.btn_toast -> {
@@ -58,6 +125,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 ToastKeeper.getInstance().createBuilder(this).setMessage("" + content)
                     .setDuration(ToastKeeper.DURATION_SHORT).show()
             }
+
             R.id.btn_camera -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     // Android 5.0及以上
