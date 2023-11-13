@@ -19,23 +19,23 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Description: 打印管理类
+ * [不必要等到接收到打印任务执行结束printEnd，就可以一直添加后续的打印任务及内容]
  * <p>
  * 取到一段新的打印任务开始标识的时候增加了阻塞机制，实现理论上可以一直不停添加新的打印任务及内容
  * <p>
  * 使用的方法示例：
- * 1、PurePrintManager.getInstance().init()
+ * 1、BlockingPrintManager.getInstance().init()
  * ---- 调用init方法启动获取打印任务及内容的Take线程
  * 2、setFragmentListener 或者 setCardListener 添加一个回调监听
- * 3、PurePrintManager.getInstance().startPrint(long taskId) 添加一个新的打印任务
- * 4、PurePrintManager.getInstance().putText(String content) 添加打印的文本内容，多个片段可以多次调用
- * 5、PurePrintManager.getInstance().putEndFlag() 设置终止打印的标识即可
+ * 3、BlockingPrintManager.getInstance().startPrint(long taskId) 添加一个新的打印任务
+ * 4、BlockingPrintManager.getInstance().putText(String content) 添加打印的文本内容，多个片段可以多次调用
+ * 5、BlockingPrintManager.getInstance().putEndFlag() 设置终止打印的标识即可
  *
  * @author glp
  * @date 2023/11/9
  */
-public class PurePrintManager implements IPurePrintTask {
-    private static final String TAG = "PurePrintManager";
-
+public class BlockingPrintManager implements IPurePrintTask {
+    private static final String TAG = "BlockingPrintManager";
     /**
      * 打印开始的START标识 自己定义自己使用，与外界无关
      */
@@ -68,16 +68,16 @@ public class PurePrintManager implements IPurePrintTask {
     private OnPrintListener mFragmentListener;
     private final List<Long> mTaskIds = new ArrayList<>();
     private long mCurrentTaskId;
-    private static PurePrintManager ourInstance;
+    private static BlockingPrintManager ourInstance;
 
-    public static PurePrintManager getInstance() {
+    public static BlockingPrintManager getInstance() {
         if (ourInstance == null) {
-            ourInstance = new PurePrintManager();
+            ourInstance = new BlockingPrintManager();
         }
         return ourInstance;
     }
 
-    private PurePrintManager() {
+    private BlockingPrintManager() {
         mMainHandler = new MyHandler(this);
     }
 
@@ -175,12 +175,12 @@ public class PurePrintManager implements IPurePrintTask {
                 }
                 onPrintEndAction();
             } else if (!isTakeAll && mIndex.get() == mPrintContent.length()) {
-                Log.i(TAG, "PurePrintManager Error:  Index与Length已经匹配应该结束，但是没有触发已经取完所有要打印数据的标识导致无法触发END");
-                Log.i(TAG, "PurePrintManager Error MSG:  isTakeAll=" + isTakeAll + "  mIndex=" + mIndex + "  mPrintContentLength=" + mPrintContent.length() + "  mPrintContent=" + mPrintContent);
+                Log.i(TAG, "BlockingPrintManager Error:  Index与Length已经匹配应该结束，但是没有触发已经取完所有要打印数据的标识导致无法触发END");
+                Log.i(TAG, "BlockingPrintManager Error MSG:  isTakeAll=" + isTakeAll + "  mIndex=" + mIndex + "  mPrintContentLength=" + mPrintContent.length() + "  mPrintContent=" + mPrintContent);
             }
         } else {
-            Log.i(TAG, "PurePrintManager Error:  refreshPrint() 更新打印进度的过程中出现异常情况导致无法走进正常的Case导致打印任务异常");
-            Log.i(TAG, "PurePrintManager Error MSG:  isTakeAll=" + isTakeAll + "  mIndex=" + mIndex + "  mPrintContentLength=" + mPrintContent.length() + "  mPrintContent=" + mPrintContent);
+            Log.i(TAG, "BlockingPrintManager Error:  refreshPrint() 更新打印进度的过程中出现异常情况导致无法走进正常的Case导致打印任务异常");
+            Log.i(TAG, "BlockingPrintManager Error MSG:  isTakeAll=" + isTakeAll + "  mIndex=" + mIndex + "  mPrintContentLength=" + mPrintContent.length() + "  mPrintContent=" + mPrintContent);
         }
     }
 
@@ -196,7 +196,7 @@ public class PurePrintManager implements IPurePrintTask {
                         mBlockingQueue.put(text);
                     }
                 } catch (Exception e) {
-                    Log.i(TAG, "PurePrintManager mPutThread ---------->>> Exception:" + e);
+                    Log.i(TAG, "BlockingPrintManager mPutThread ---------->>> Exception:" + e);
                     throw new RuntimeException(e);
                 }
             }
@@ -235,7 +235,7 @@ public class PurePrintManager implements IPurePrintTask {
                             }
 
                         } catch (Exception e) {
-                            Log.i(TAG, "PurePrintManager mTakeThread ---------->>> Exception:" + e);
+                            Log.i(TAG, "BlockingPrintManager mTakeThread ---------->>> Exception:" + e);
                             throw new RuntimeException(e);
                         }
                     }
@@ -254,7 +254,7 @@ public class PurePrintManager implements IPurePrintTask {
                 mTaskIds.add(mCurrentTaskId);
             }
         } catch (Exception e) {
-            Log.i(TAG, "PurePrintManager realStartPrint START_FLAG Exception:" + e);
+            Log.i(TAG, "BlockingPrintManager realStartPrint START_FLAG Exception:" + e);
         }
 
         isPrinting = true;

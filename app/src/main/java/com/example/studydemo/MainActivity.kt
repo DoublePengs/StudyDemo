@@ -22,7 +22,7 @@ import com.example.studydemo.activity.TranslationTestActivity
 import com.example.studydemo.activity.VideoCompressActivity
 import com.example.studydemo.activity.fragment.MyFragmentActivity
 import com.example.studydemo.activity.launchmode.LaunchActivityA
-import com.example.studydemo.print.PurePrintManager
+import com.example.studydemo.print.BlockingPrintManager
 import com.example.studydemo.utils.HardwareUtil
 import com.example.studydemo.utils.ImageUtils
 import com.example.studydemo.utils.PermissionUtil
@@ -56,11 +56,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_main)
 
         // 阻塞队列加同步锁实现逐字文本打印输出的管理类，可以用于实现AI回复消息拟真逐字打印的效果
-        PurePrintManager.getInstance().init()
-        PurePrintManager.getInstance()
-            .setFragmentListener(object : PurePrintManager.OnPrintListener {
+        BlockingPrintManager.getInstance().init()
+        BlockingPrintManager.getInstance()
+            .setFragmentListener(object : BlockingPrintManager.OnPrintListener {
                 override fun printStart() {
-                    Log.w("PurePrintManager", "------>> printStart")
+                    Log.w("BlockingPrintManager", "------>> printStart")
                 }
 
                 override fun refreshText(taskId: Long, currentText: String?) {
@@ -68,17 +68,27 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
 
                 override fun printEnd(taskId: Long) {
-                    Log.e("PurePrintManager", "------>> printEnd  taskId=$taskId")
+                    Log.e("BlockingPrintManager", "------>> printEnd  taskId=$taskId")
                 }
             })
 
-        for (i in 0..10) {
-            PurePrintManager.getInstance().startPrint(i.toLong())
-            PurePrintManager.getInstance().putText("$i 项目名称：测试项目经历 \n- 描述急急")
-            PurePrintManager.getInstance().putText("$i 急急急急急地面")
-            PurePrintManager.getInstance().putText("$i ")
-            PurePrintManager.getInstance().putEndFlag()
+        for (i in 0..100) {
+            BlockingPrintManager.getInstance().startPrint(i.toLong())
+            BlockingPrintManager.getInstance().putText("$i 项目名称：测试项目经历 \n- 描述急急")
+            BlockingPrintManager.getInstance().putText("$i 急急急急急地面")
+            BlockingPrintManager.getInstance().putText("$i ")
+            BlockingPrintManager.getInstance().putEndFlag()
         }
+
+//        SplitTest.init(1)
+//        SplitTest.init(2)
+//        SplitTest.init(3)
+//
+//        for (i in 0..100) {
+//            SplitTest.putText(SplitTest.START_FLAG + SplitTest.SPLIT_TAG + i)
+//        }
+
+
 
         btn_compress_video.setOnClickListener(this)
         btn_lottie.setOnClickListener(this)
