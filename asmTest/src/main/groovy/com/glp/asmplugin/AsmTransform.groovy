@@ -1,8 +1,7 @@
-package com.glp.asmplugin;
+package com.glp.asmplugin
 
 import com.android.build.api.transform.*
 import com.android.build.gradle.internal.pipeline.TransformManager
-import com.glp.asmplugin.LogVisitor
 import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOUtils
@@ -15,7 +14,6 @@ import java.util.jar.JarFile
 import java.util.jar.JarOutputStream
 import java.util.zip.ZipEntry
 
-
 /**
  * Description: 自己定义的Transform
  * <p>
@@ -23,7 +21,8 @@ import java.util.zip.ZipEntry
  * 允许第三方Plugin在打包dex文件之前的编译过程中操作.class文件。
  * 所以我们就可以使用Transform，拿到所有的.class文件。
  *
- * @author glp* @date 2021-11-20
+ * @author glp
+ * @date 2021-11-20
  */
 public class AsmTransform extends Transform {
 
