@@ -404,7 +404,7 @@ class CameraPreviewActivity : AppCompatActivity(), View.OnClickListener {
         try {
             closePreviewSession()
             val texture = texture_view.surfaceTexture
-            texture.setDefaultBufferSize(texture_view.width, texture_view.height)
+            texture?.setDefaultBufferSize(texture_view.width, texture_view.height)
             previewRequestBuilder = mCameraDevice!!.createCaptureRequest(TEMPLATE_PREVIEW)
 
             val previewSurface = Surface(texture)

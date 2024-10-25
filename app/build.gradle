@@ -4,30 +4,42 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-apply plugin: 'danny.asm.lifecycle' // 在自定义 Gradle 插件中 properties 文件名
+//apply plugin: 'danny.asm.lifecycle' // 在自定义 Gradle 插件中 properties 文件名
+//apply plugin: 'com.asm.gradle'
 
 apply plugin: 'com.didi.dokit'
 
 buildscript {
     repositories {
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
         google()
-        jcenter()
-        // 自定义插件的 maven 地址
-        maven { url '../asm_lifecycle_repo' }
+        mavenCentral()
+//        // 自定义插件的 maven 地址
+//        maven { url '../asm_lifecycle_repo' }
+
+        maven {
+            // 本地仓库地址
+            url uri('/Users/liepin/AndroidProject/StudyDemo/asmTest/my-plugin')
+        }
     }
     dependencies {
-        // 加载自定义插件 group + moudle + version
-        classpath 'danny.lifecycle.plugin:asm_lifecycle_plugin:1.0.0'
+//        // 加载自定义插件 group + moudle + version
+//        classpath 'danny.lifecycle.plugin:asm_lifecycle_plugin:1.0.0'
+
+        // 自己写的插件  group + artifact + version
+        classpath 'com.asm.plugin:asmplugin:1.0'
     }
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 31
     buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.example.studydemo"
-        minSdkVersion 19
-        targetSdkVersion 29
+        minSdkVersion 21
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -40,6 +52,51 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    ndkVersion "21.0.6113669"
+
+    /**
+     * 修改 Android 12 因为 exported 的构建问题
+     */
+    android.applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            output.processResources.doFirst { pm ->
+                String manifestPath = output.processResources.manifestFile
+                def manifestFile = new File(manifestPath)
+                def xml = new XmlParser(false, true).parse(manifestFile)
+                def exportedTag = "android:exported"
+                ///指定 space
+                def androidSpace = new groovy.xml.Namespace('http://schemas.android.com/apk/res/android', 'android')
+
+                def nodes = xml.application[0].'*'.findAll {
+                    //挑选要修改的节点，没有指定的 exported 的才需要增加
+                    (it.name() == 'activity' || it.name() == 'receiver' || it.name() == 'service') && it.attribute(androidSpace.exported) == null
+
+                }
+                ///添加 exported，默认 false
+                nodes.each {
+                    def isMain = false
+                    it.each {
+                        if (it.name() == "intent-filter") {
+                            it.each {
+                                if (it.name() == "action") {
+                                    if (it.attributes().get(androidSpace.name) == "android.intent.action.MAIN") {
+                                        isMain = true
+                                        println("......................MAIN FOUND......................")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    it.attributes().put(exportedTag, "${isMain}")
+                }
+
+                PrintWriter pw = new PrintWriter(manifestFile)
+                pw.write(groovy.xml.XmlUtil.serialize(xml))
+                pw.close()
+            }
+        }
+    }
 }
 
 dependencies {
@@ -48,6 +105,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+//    implementation project(path: ':asmTest')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -58,11 +116,13 @@ dependencies {
 
 
     // debugImplementation because LeakCanary should only run in debug builds.
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.4'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
 
 
     debugImplementation "com.didichuxing.doraemonkit:doraemonkit:3.1.8"
     releaseImplementation "com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.8"
 
     implementation 'com.android.support:multidex:1.0.3'
+
+    implementation 'com.squareup:javapoet:1.10.0'
 }
