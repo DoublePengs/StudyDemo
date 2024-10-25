@@ -36,6 +36,7 @@ public class PrintTestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // 阻塞队列加同步锁实现逐字文本打印输出的管理类，可以用于实现AI回复消息拟真逐字打印的效果
+                BlockingPrintManager.getInstance().onDestroy();
                 BlockingPrintManager.getInstance().init();
                 BlockingPrintManager.getInstance()
                         .setFragmentListener(new BlockingPrintManager.OnPrintListener() {
@@ -63,7 +64,7 @@ public class PrintTestActivity extends AppCompatActivity {
                             }
                         });
 
-                for (int i = 0; i < 100; i++) {
+                for (int i = 0; i < 23; i++) {
                     BlockingPrintManager.getInstance().startPrint(i);
                     BlockingPrintManager.getInstance().putText(i + " 项目名称：测试项目经历 \n- 描述急急\n");
                     BlockingPrintManager.getInstance().putText(i + " 急急急急急地面\n");
@@ -72,5 +73,11 @@ public class PrintTestActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BlockingPrintManager.getInstance().onDestroy();
     }
 }

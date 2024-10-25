@@ -58,7 +58,10 @@ public class BlockingPrintManager implements IPurePrintTask {
     private final StringBuilder mPrintContent = new StringBuilder();
     private final ExecutorService mTakeThread = Executors.newSingleThreadExecutor();
     private final ExecutorService mPutThread = Executors.newSingleThreadExecutor();
-    private final BlockingQueue<String> mBlockingQueue = new LinkedBlockingQueue<>();
+    /**
+     * 限制队列的大小
+     */
+    private final BlockingQueue<String> mBlockingQueue = new LinkedBlockingQueue<>(1000);
 
     private final AtomicInteger mIndex = new AtomicInteger(0);
     private volatile boolean isTakeAll = false;
@@ -118,6 +121,11 @@ public class BlockingPrintManager implements IPurePrintTask {
 
     private void onPrintEndAction() {
         reset();
+        int remainCount = mBlockingQueue.size();
+        if (remainCount == 0) {
+            // 队列中没有待打印任务之后，不能继续否则会阻塞当前UI线程导致ANR
+            return;
+        }
         synchronized (mLock) {
             mLock.notifyAll();
         }
