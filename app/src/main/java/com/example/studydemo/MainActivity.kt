@@ -15,6 +15,7 @@ import com.example.studydemo.activity.CountDownTimerActivity
 import com.example.studydemo.activity.DialogActivity
 import com.example.studydemo.activity.LeakTestActivity
 import com.example.studydemo.activity.LottieActivity
+import com.example.studydemo.activity.PrintTestActivity
 import com.example.studydemo.activity.RemoveActivity
 import com.example.studydemo.activity.ScreenShotActivity
 import com.example.studydemo.activity.ScrollViewActivity
@@ -22,7 +23,6 @@ import com.example.studydemo.activity.TranslationTestActivity
 import com.example.studydemo.activity.VideoCompressActivity
 import com.example.studydemo.activity.fragment.MyFragmentActivity
 import com.example.studydemo.activity.launchmode.LaunchActivityA
-import com.example.studydemo.print.BlockingPrintManager
 import com.example.studydemo.utils.HardwareUtil
 import com.example.studydemo.utils.ImageUtils
 import com.example.studydemo.utils.PermissionUtil
@@ -38,6 +38,7 @@ import kotlinx.android.synthetic.main.activity_main.btn_fragment_crash
 import kotlinx.android.synthetic.main.activity_main.btn_launch_mode
 import kotlinx.android.synthetic.main.activity_main.btn_leak
 import kotlinx.android.synthetic.main.activity_main.btn_lottie
+import kotlinx.android.synthetic.main.activity_main.btn_print_test
 import kotlinx.android.synthetic.main.activity_main.btn_remove
 import kotlinx.android.synthetic.main.activity_main.btn_save_img
 import kotlinx.android.synthetic.main.activity_main.btn_screen_shot
@@ -55,31 +56,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // 阻塞队列加同步锁实现逐字文本打印输出的管理类，可以用于实现AI回复消息拟真逐字打印的效果
-        BlockingPrintManager.getInstance().init()
-        BlockingPrintManager.getInstance()
-            .setFragmentListener(object : BlockingPrintManager.OnPrintListener {
-                override fun printStart() {
-                    Log.w("BlockingPrintManager", "------>> printStart")
-                }
-
-                override fun refreshText(taskId: Long, currentText: String?) {
-
-                }
-
-                override fun printEnd(taskId: Long) {
-                    Log.e("BlockingPrintManager", "------>> printEnd  taskId=$taskId")
-                }
-            })
-
-        for (i in 0..100) {
-            BlockingPrintManager.getInstance().startPrint(i.toLong())
-            BlockingPrintManager.getInstance().putText("$i 项目名称：测试项目经历 \n- 描述急急")
-            BlockingPrintManager.getInstance().putText("$i 急急急急急地面")
-            BlockingPrintManager.getInstance().putText("$i ")
-            BlockingPrintManager.getInstance().putEndFlag()
-        }
-
 //        SplitTest.init(1)
 //        SplitTest.init(2)
 //        SplitTest.init(3)
@@ -87,7 +63,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 //        for (i in 0..100) {
 //            SplitTest.putText(SplitTest.START_FLAG + SplitTest.SPLIT_TAG + i)
 //        }
-
 
 
         btn_compress_video.setOnClickListener(this)
@@ -109,6 +84,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btn_dialog.setOnClickListener(this)
         btn_single_task.setOnClickListener(this)
         btn_translation_test.setOnClickListener(this)
+        btn_print_test.setOnClickListener(this)
 
         var matrix = Matrix.ROTATE_0
         Toast.makeText(this, "matrix=" + matrix, Toast.LENGTH_LONG).show()
@@ -205,6 +181,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             R.id.btn_translation_test -> {
                 startActivity(Intent(this, TranslationTestActivity::class.java))
+            }
+
+            R.id.btn_print_test -> {
+                startActivity(Intent(this, PrintTestActivity::class.java))
             }
 
         }

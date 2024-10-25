@@ -73,6 +73,7 @@
             android:configChanges="screenSize|orientation|smallestScreenSize|keyboardHidden"
             android:screenOrientation="fullSensor" />
         <activity android:name=".activity.VideoCompressActivity" />
+        <activity android:name=".activity.PrintTestActivity" />
     </application>
 
 </manifest>
